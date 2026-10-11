@@ -1,8 +1,19 @@
+# Secrets
 .env
 .env.*
 !.env.example
+.streamlit/secrets.toml
+
+# Python
 .venv/
 venv/
 __pycache__/
 *.py[cod]
-.streamlit/secrets.toml
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
+.DS_Store
