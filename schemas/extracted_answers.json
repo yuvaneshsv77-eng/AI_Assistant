@@ -1,0 +1,55 @@
+{
+"type": "object",
+"properties": {
+"customer_name": {
+"type": ["string", "null"]
+},
+"verified": {
+"type": ["boolean", "null"]
+},
+"busy": {
+"type": ["boolean", "null"]
+},
+"callback_requested": {
+"type": ["boolean", "null"]
+},
+"callback_time": {
+"type": ["string", "null"]
+},
+"transfer_intent": {
+"type": ["boolean", "null"]
+},
+"property_type": {
+"type": ["string", "null"],
+"enum": ["RESIDENTIAL", "COMMERCIAL", "INDUSTRIAL", "AGRICULTURAL", null]
+},
+"ownership_status": {
+"type": ["string", "null"],
+"enum": ["SOLE", "JOINT", null]
+},
+"documents_available": {
+"type": ["boolean", "null"]
+},
+"loan_amount": {
+"type": ["number", "null"]
+},
+"max_amount_accepted": {
+"type": ["boolean", "null"]
+},
+"occupation": {
+"type": ["string", "null"],
+"enum": ["SALARIED", "SELF_EMPLOYED", null]
+},
+"income_mode": {
+"type": ["string", "null"],
+"enum": ["BANK", "CASH", null]
+},
+"market_value": {
+"type": ["number", "null"]
+},
+"tenure": {
+"type": ["integer", "null"]
+}
+},
+"additionalProperties": false
+}

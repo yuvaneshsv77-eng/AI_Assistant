@@ -1,0 +1,33 @@
+{
+"customer": {
+"name": null,
+"verified": false,
+"busy": false,
+"callback_requested": false,
+"callback_time": null
+},
+"eligibility": {
+"property_type": null,
+"ownership_status": null,
+"documents_available": null,
+"loan_amount": null,
+"occupation": null,
+"income_mode": null,
+"market_value": null,
+"tenure": null
+},
+"flow": {
+"stage": "VERIFICATION",
+"current_question": null,
+"transfer_intent": false,
+"disqualified": false,
+"handoff_allowed": false,
+"call_status": "IN_PROGRESS",
+"max_amount_offer_pending": false,
+"max_amount_accepted": false
+},
+"decision": {
+"status": "PENDING",
+"reason": null
+}
+}

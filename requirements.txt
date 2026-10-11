@@ -1,0 +1,6 @@
+# Day 2 decision-engine prototype uses Python's standard library.
+# No external packages are required yet.
+streamlit
+google-genai
+python-dotenv
+gTTS
