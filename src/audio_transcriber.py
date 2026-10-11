@@ -2,6 +2,7 @@
 """Transcribe customer audio using the configured Gemini model."""
 
 import os
+import streamlit as st
 
 from dotenv import load_dotenv
 from google import genai
@@ -9,7 +10,37 @@ from google.genai import types
 
 load_dotenv()
 
-MODEL_NAME = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+
+def get_gemini_api_key():
+    """Read the API key from local environment or Streamlit Secrets."""
+    api_key = os.getenv("GEMINI_API_KEY")
+
+    if not api_key:
+        try:
+            api_key = st.secrets.get("GEMINI_API_KEY")
+        except Exception:
+            api_key = None
+
+    if not api_key or not str(api_key).strip():
+        raise RuntimeError(
+            "GEMINI_API_KEY is missing. Configure it in your local "
+            ".env file or Streamlit Cloud Secrets."
+        )
+
+    return str(api_key).strip()
+
+
+def get_gemini_model():
+    """Read the configured model from environment or Streamlit Secrets."""
+    model = os.getenv("GEMINI_MODEL")
+
+    if not model:
+        try:
+            model = st.secrets.get("GEMINI_MODEL")
+        except Exception:
+            model = None
+
+    return str(model or "gemini-2.5-flash").strip()
 
 
 def transcribe_audio(audio_bytes, mime_type="audio/wav"):
@@ -18,11 +49,8 @@ def transcribe_audio(audio_bytes, mime_type="audio/wav"):
     if not audio_bytes:
         raise ValueError("The audio recording is empty.")
 
-    api_key = os.getenv("GEMINI_API_KEY")
-    if not api_key:
-        raise RuntimeError(
-            "GEMINI_API_KEY is missing. Check your project .env file."
-        )
+    api_key = get_gemini_api_key()
+    model_name = get_gemini_model()
 
     client = genai.Client(api_key=api_key)
 
@@ -38,7 +66,7 @@ def transcribe_audio(audio_bytes, mime_type="audio/wav"):
     """
 
     response = client.models.generate_content(
-        model=MODEL_NAME,
+        model=model_name,
         contents=[
             types.Part.from_bytes(
                 data=audio_bytes,
@@ -53,10 +81,7 @@ def transcribe_audio(audio_bytes, mime_type="audio/wav"):
     if not transcript:
         raise RuntimeError("Gemini did not return a transcript.")
 
-    if transcript.lower() in {
-        "the audio could not be understood.",
-        "the audio could not be understood",
-    }:
+    if transcript.lower().rstrip(".") == "the audio could not be understood":
         raise RuntimeError(
             "The audio was not clear enough. Please record it again."
         )
